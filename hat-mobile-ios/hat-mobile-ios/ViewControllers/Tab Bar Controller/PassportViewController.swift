@@ -15,12 +15,18 @@ import HatForIOS
 // MARK: Class
 
 /// The class responsible for the landing screen
-internal class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UserCredentialsProtocol {
-    
+internal class PassportViewController: UIViewController, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UserCredentialsProtocol {
+
     // MARK: - Variables
     
-    /// The tiles to show
-    private var tiles: [HomeScreenObject] = []
+    /// The badges to show
+    private var badges: [UIImage] = []
+    
+    /// The profile, used in PHATA table
+    private var profile: HATProfileObject?
+    
+    /// The sections of the table view
+    private let sections: [[String]] = [["Name", "Info", "Contact Info"], ["Nationality"], ["Relationship and Household"], ["Education"], ["School Activities"], ["Grades"]]
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
@@ -37,6 +43,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     /// An IBOutlet for handling the collection view
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    @IBOutlet private weak var tableView: UITableView!
     /// An IBOutlet for handling the hello label on the top of the screen
     @IBOutlet private weak var helloLabel: UILabel!
     
@@ -61,54 +68,14 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.homeScreenCell, for: indexPath) as? HomeCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.badgesCell, for: indexPath) as? BadgesCollectionViewCell
         
-        let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-        return HomeCollectionViewCell.setUp(cell: cell!, indexPath: indexPath, object: self.tiles[indexPath.row], orientation: orientation)
+        return BadgesCollectionViewCell.setUpCell(badgeImage: self.badges[indexPath.row], cell: cell!)
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.tiles.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-        // in case of landscape show 3 tiles instead of 2
-        if orientation == .landscapeLeft || orientation == .landscapeRight {
-            
-            return CGSize(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
-        }
-        
-        return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.CellReuseIDs.homeHeader, for: indexPath) as? HomeHeaderCollectionReusableView {
-            
-            return headerView.setUp(stringToShow: "Data Services")
-        }
-        
-        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.CellReuseIDs.homeHeader, for: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if self.tiles[indexPath.row].serviceName == "Notes" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.notesSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Locations" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.locationsSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Social Data" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.socialDataSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Photo Viewer" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.photoViewerSegue, sender: self)
-        }
+        return self.badges.count
     }
     
     // MARK: - View controller methods
@@ -117,7 +84,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         super.viewDidLoad()
         
-        self.tiles = HomeScreenObject.setUpTilesForHomeScreen()
+        self.badges = BadgesCollectionViewCell.createBadges()
         
         self.ringProgressBar.ringColor = .white
         self.ringProgressBar.ringRadius = 45
@@ -130,11 +97,59 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         (self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout)!.sectionHeadersPinToVisibleBounds = true
     }
     
+    /**
+     If the profile table has been created get the profile values from HAT
+     
+     - parameter dictionary: The dictionary returned from hat
+     - parameter renewedToken: The new token returned from hat
+     */
+    func tableCreated(dictionary: Dictionary<String, Any>, renewedToken: String?) {
+        
+        HATPhataService.getProfileFromHAT(userDomain: userDomain, userToken: userToken, successCallback: getProfile, failCallback: logError)
+    }
+    
+    /**
+     Gets profile from hat and saves it to a local variable
+     
+     - parameter receivedProfile: The received HATProfileObject from HAT
+     */
+    private func getProfile(receivedProfile: HATProfileObject) {
+        
+        self.profile = receivedProfile
+    }
+    
+    /**
+     Logs the error occured
+     
+     - parameter error: The HATTableError occured
+     */
+    private func logError(error: HATTableError) {
+        
+        self.profile = HATProfileObject()
+        
+        switch error {
+        case .tableDoesNotExist:
+            
+            let tableJSON = HATJSONHelper.createProfileTableJSON()
+            HATAccountService.createHatTable(userDomain: userDomain, token: userToken, notablesTableStructure: tableJSON, failed: {(error) in
+                
+                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            })(
+                
+                HATAccountService.checkHatTableExistsForUploading(userDomain: userDomain, tableName: Constants.HATTableName.Profile.name, sourceName: Constants.HATTableName.Profile.source, authToken: userToken, successCallback: tableCreated, errorCallback: logError)
+            )
+        default:
+            _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         
         self.ringProgressBar.isHidden = true
+        
+        HATPhataService.getProfileFromHAT(userDomain: userDomain, userToken: userToken, successCallback: getProfile, failCallback: logError)
         
         func success(token: String?) {
             
@@ -310,6 +325,91 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         // refresh user token
         _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+    }
+    
+    // MARK: - Table view methods
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return sections[section].count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreCell, for: indexPath)
+        
+        return setUpCell(cell: cell, indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 0 {
+            
+            if indexPath.row == 0 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToName, sender: self)
+            } else if indexPath.row == 1 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToInfoSegue, sender: self)
+            } else if indexPath.row == 2 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToContactInfoSegue, sender: self)
+            }
+        } else if indexPath.section == 1 {
+            
+            if indexPath.row == 0 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToNationalitySegue, sender: self)
+            }
+        } else if indexPath.section == 2 {
+            
+            if indexPath.row == 0 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToHouseholdSegue, sender: self)
+            }
+        } else if indexPath.section == 3 {
+            
+            if indexPath.row == 0 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToEducationSegue, sender: self)
+            }
+        }
+        
+        self.tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    // MARK: - Update cell
+    
+    /**
+     Sets up the cell accordingly
+     
+     - parameter cell: The cell to set up
+     - parameter indexPath: The index path of the cell
+     
+     - returns: The set up cell
+     */
+    func setUpCell(cell: UITableViewCell, indexPath: IndexPath) -> UITableViewCell {
+        
+        cell.textLabel?.text = self.sections[indexPath.section][indexPath.row]
+        
+        if indexPath.section == 4 || indexPath.section == 5 {
+            
+            cell.isUserInteractionEnabled = false
+            cell.accessoryType = .none
+        } else {
+            
+            cell.isUserInteractionEnabled = true
+            cell.accessoryType = .disclosureIndicator
+        }
+        
+        cell.backgroundColor = .blueLight
+        
+        return cell
     }
     
 }

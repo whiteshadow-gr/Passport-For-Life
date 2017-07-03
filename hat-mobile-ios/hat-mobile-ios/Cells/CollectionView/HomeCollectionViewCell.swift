@@ -69,31 +69,31 @@ internal class HomeCollectionViewCell: UICollectionViewCell {
             // create this zebra like color based on the index of the cell
             if indexPath.row % 4 == 0 {
                 
-                return .rumpelDarkGray
-            } else if indexPath.row % 4 == 3 {
+                return .blueLight
+            } else if indexPath.row % 4 == 1 {
                 
-                return .rumpelLighterDarkGray
+                return .blueLighter
             } else if indexPath.row % 4 == 2 {
                 
-                return .tealLight
+                return .blueLighter
             }
             
-            return .tealDark
+            return .blueLight
         } else {
             
             // create this zebra like color based on the index of the cell
             if indexPath.row % 6 == 0 {
                 
-                return .rumpelDarkGray
+                return .blueLight
             } else if indexPath.row % 6 == 3 {
                 
-                return .tealLight
+                return .blueLighter
             } else if indexPath.row % 6 == 2 {
                 
-                return .rumpelLighterDarkGray
+                return .blueLight
             }
             
-            return .blue
+            return .blueLighter
         }
     }
 }

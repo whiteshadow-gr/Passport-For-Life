@@ -35,6 +35,8 @@ internal class HomeHeaderCollectionReusableView: UICollectionReusableView {
         
         self.headerTitle.text = stringToShow
         
+        self.backgroundColor = .blue
+        
         return self
     }
 }

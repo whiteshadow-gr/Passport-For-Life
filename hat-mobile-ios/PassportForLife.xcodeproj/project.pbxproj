@@ -130,6 +130,7 @@
 		60BAEEB51EE01CB1001F8381 /* DataOffersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */; };
 		60CC29A81EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */; };
 		60CC29AB1EEAEFEF0083C6D8 /* HATImagesRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CC29AA1EEAEFEF0083C6D8 /* HATImagesRealmObject.swift */; };
+		60CD63181F0AEC3500F49853 /* PassportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CD63171F0AEC3500F49853 /* PassportViewController.swift */; };
 		60CDCBEA1EAACA9500035882 /* PhataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CDCBE91EAACA9500035882 /* PhataTableViewController.swift */; };
 		60CDCBEC1EAAE92500035882 /* PhataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */; };
 		60CDCBF11EAAEA5500035882 /* NameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CDCBF01EAAEA5500035882 /* NameTableViewController.swift */; };
@@ -306,6 +307,7 @@
 		60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataOffersCollectionViewCell.swift; sourceTree = "<group>"; };
 		60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		60CC29AA1EEAEFEF0083C6D8 /* HATImagesRealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HATImagesRealmObject.swift; path = "Realm Objects/HATImagesRealmObject.swift"; sourceTree = "<group>"; };
+		60CD63171F0AEC3500F49853 /* PassportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassportViewController.swift; sourceTree = "<group>"; };
 		60CD68431E47C71300E60429 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/hat-mobile-ios-frfzhyzzkbkdtfefxyylmuufmmbq/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		60CDCBE91EAACA9500035882 /* PhataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhataTableViewController.swift; sourceTree = "<group>"; };
 		60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhataTableViewCell.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 				60103FB61EB4AA0100BBA065 /* Home View Controller */,
 				60CDCBED1EAAEA0000035882 /* More View Controller */,
 				6044B2171DDB3151003A1263 /* TabBarViewController.swift */,
+				60CD63171F0AEC3500F49853 /* PassportViewController.swift */,
 			);
 			path = "Tab Bar Controller";
 			sourceTree = "<group>";
@@ -1328,6 +1331,7 @@
 				60938DBA1E9BA3B10058F6CC /* PhotosHelperViewController.swift in Sources */,
 				603D55BF1E69879300CCEBEB /* LabelExtension.swift in Sources */,
 				60FAC76B1E223AA700532C01 /* DataPlugCollectionViewCell.swift in Sources */,
+				60CD63181F0AEC3500F49853 /* PassportViewController.swift in Sources */,
 				B59136881D19DC2700E9EDD0 /* DataPoint.swift in Sources */,
 				60BAEEB31EE01C23001F8381 /* DataOffersViewController.swift in Sources */,
 				602CB44A1E8BF3AB00903F33 /* PhotosCollectionViewCell.swift in Sources */,
