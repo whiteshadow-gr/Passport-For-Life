@@ -53,7 +53,7 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.tintColor = .appBase
         
         UINavigationBar.appearance().isOpaque = true
-        UINavigationBar.appearance().barTintColor = .teal
+        UINavigationBar.appearance().barTintColor = .blue
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "OpenSans", size: 20)!]
         UIBarButtonItem.appearance()

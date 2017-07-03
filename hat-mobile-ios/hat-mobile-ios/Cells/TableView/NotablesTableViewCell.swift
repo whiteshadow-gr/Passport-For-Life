@@ -234,7 +234,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         }
         
         let partOne = NSAttributedString(string: string)
-        let partTwo = shareString.createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSans, size: 11)!)
+        let partTwo = shareString.createTextAttributes(foregroundColor: .blue, strokeColor: .blue, font: UIFont(name: Constants.FontNames.openSans, size: 11)!)
         
         return partOne.combineWith(attributedText: partTwo)
     }

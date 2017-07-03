@@ -93,7 +93,7 @@ internal class HomeCollectionViewCell: UICollectionViewCell {
                 return .rumpelLighterDarkGray
             }
             
-            return .teal
+            return .blue
         }
     }
 }

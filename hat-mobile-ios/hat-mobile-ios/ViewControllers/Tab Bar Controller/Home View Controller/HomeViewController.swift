@@ -15,12 +15,26 @@ import HatForIOS
 // MARK: Class
 
 /// The class responsible for the landing screen
-internal class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UserCredentialsProtocol {
+internal class HomeViewController: UIViewController, UICollectionViewDataSource, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UserCredentialsProtocol {
+    
+    // MARK: - Table View methods
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.setDataStoreCell, for: indexPath) as? DataStoreTableViewCell
+        
+        return DataStoreTableViewCell.setUpCell(cell: cell!, indexPath: indexPath)
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return 6
+    }
     
     // MARK: - Variables
     
-    /// The tiles to show
-    private var tiles: [HomeScreenObject] = []
+    /// The badges to show
+    private var badges: [UIImage] = []
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
@@ -36,6 +50,8 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     /// An IBOutlet for handling the collection view
     @IBOutlet private weak var collectionView: UICollectionView!
+    
+    @IBOutlet private weak var tableView: UITableView!
     
     /// An IBOutlet for handling the hello label on the top of the screen
     @IBOutlet private weak var helloLabel: UILabel!
@@ -61,54 +77,14 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.homeScreenCell, for: indexPath) as? HomeCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.badgesCell, for: indexPath) as? BadgesCollectionViewCell
         
-        let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-        return HomeCollectionViewCell.setUp(cell: cell!, indexPath: indexPath, object: self.tiles[indexPath.row], orientation: orientation)
+        return BadgesCollectionViewCell.setUpCell(badgeImage: self.badges[indexPath.row], cell: cell!)
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.tiles.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-        // in case of landscape show 3 tiles instead of 2
-        if orientation == .landscapeLeft || orientation == .landscapeRight {
-            
-            return CGSize(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
-        }
-        
-        return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.CellReuseIDs.homeHeader, for: indexPath) as? HomeHeaderCollectionReusableView {
-            
-            return headerView.setUp(stringToShow: "Data Services")
-        }
-                
-        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.CellReuseIDs.homeHeader, for: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if self.tiles[indexPath.row].serviceName == "Notes" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.notesSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Locations" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.locationsSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Social Data" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.socialDataSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Photo Viewer" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.photoViewerSegue, sender: self)
-        }
+        return self.badges.count
     }
     
     // MARK: - View controller methods
@@ -117,7 +93,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         super.viewDidLoad()
 
-        self.tiles = HomeScreenObject.setUpTilesForHomeScreen()
+        self.badges = BadgesCollectionViewCell.createBadges()
         
         self.ringProgressBar.ringColor = .white
         self.ringProgressBar.ringRadius = 45
@@ -214,7 +190,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         // set up the created page view controller
         if let pageViewController = self.storyboard!.instantiateViewController(withIdentifier: "firstTimeOnboarding") as? FirstOnboardingPageViewController {
             
-            pageViewController.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.origin.x + 15, width: self.view.frame.width - 30, height: self.view.frame.height - 30), color: .teal, cornerRadius: 15)
+            pageViewController.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.origin.x + 15, width: self.view.frame.width - 30, height: self.view.frame.height - 30), color: .blue, cornerRadius: 15)
             
             // add the page view controller to self
             self.addViewController(pageViewController)
@@ -233,7 +209,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         let textPopUpViewController = TextPopUpViewController.customInit(stringToShow: text, from: self.storyboard!)
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
-        textPopUpViewController?.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.collectionView.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height), color: .teal, cornerRadius: 15)
+        textPopUpViewController?.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.collectionView.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height), color: .blue, cornerRadius: 15)
         
         DispatchQueue.main.async { [weak self] () -> Void in
             

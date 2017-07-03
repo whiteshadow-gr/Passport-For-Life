@@ -35,14 +35,14 @@ internal class ParentPageViewController: UIPageViewController, UIPageViewControl
         self.createPageViewController()
         
         // change the color of the pagination dots at the bottom of the screen
-        self.changePaginationColors(pageTintColor: .teal, pageCurrentTintColor: .white)
+        self.changePaginationColors(pageTintColor: .blue, pageCurrentTintColor: .white)
         
         // add notification observers for disabling and enabling page controll
         NotificationCenter.default.addObserver(self, selector: #selector(disablePageControll), name: Notification.Name(Constants.NotificationNames.disablePageControll), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(enablePageControll), name: Notification.Name(Constants.NotificationNames.enablePageControll), object: nil)
         
         // change background color
-        self.view.backgroundColor = .teal
+        self.view.backgroundColor = .blue
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,7 +127,7 @@ internal class ParentPageViewController: UIPageViewController, UIPageViewControl
         _ = self.getItemController(itemIndex: 6)
         
         // change the color of the pagination dots at the bottom of the screen
-        UIPageControl.appearance().pageIndicatorTintColor = .teal
+        UIPageControl.appearance().pageIndicatorTintColor = .blue
     }
     
     // MARK: - Create view controller

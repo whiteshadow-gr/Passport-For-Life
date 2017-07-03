@@ -131,6 +131,8 @@ internal class Constants {
         static let phoneCell: String = "phoneCell"
         static let resetPasswordCell: String = "resetPasswordCell"
         static let socialLinksCell: String = "socialLinksCell"
+        static let badgesCell: String = "badgeCell"
+        static let setDataStoreCell: String = "setDataStoreCell"
     }
     
     struct HATTableName {
@@ -373,6 +375,13 @@ internal class Constants {
         static let tealDevicesImage: String = "TealDevices"
         static let tealImage: String = "Teal Image"
         static let addLocation: String = "Add Location"
+        
+        static let scienceBadge: String = "ScienceBadge"
+        static let musicBadge: String = "MusicBadge"
+        static let photosBadge: String = "PhotosBadge"
+        static let artsBadge: String = "ArtsBadge"
+        static let activityBadge: String = "ActivityBadge"
+        static let socialBadge: String = "SocialBadge"
     }
     
     // MARK: - Data Plug
