@@ -26,7 +26,7 @@ internal class PassportViewController: UIViewController, UICollectionViewDataSou
     private var profile: HATProfileObject?
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Name", "Info", "Contact Info"], ["Nationality"], ["Relationship and Household"], ["Education"], ["School Activities"], ["Grades"]]
+    private let sections: [[String]] = [["Name", "Info", "Contact Info"], ["Nationality"], ["Skills"], ["Education"], ["Activities"], ["Grades"]]
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?

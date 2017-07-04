@@ -99,7 +99,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         // create this zebra like color based on the index of the cell
         if indexPath.row % 2 == 1 {
             
-            newCell.contentView.backgroundColor = .rumpelLightGray
+            newCell.contentView.backgroundColor = .blueLighter
         }
         
         // show the data in the cell's labels
@@ -198,7 +198,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         
         cell.collectionView.reloadData()
         
-        cell.contentView.backgroundColor = .rumpelDarkGray
+        cell.contentView.backgroundColor = .blueLight
 
         return cell
     }
