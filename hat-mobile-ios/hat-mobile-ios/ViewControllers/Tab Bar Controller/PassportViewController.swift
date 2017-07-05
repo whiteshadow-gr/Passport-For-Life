@@ -412,4 +412,39 @@ internal class PassportViewController: UIViewController, UICollectionViewDataSou
         return cell
     }
     
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if self.profile != nil {
+            
+            if segue.destination is DataSourceNameTableViewController {
+                
+                weak var destinationVC = segue.destination as? DataSourceNameTableViewController
+                
+                if segue.identifier == Constants.Segue.dataStoreToName {
+                    
+                    destinationVC?.profile = self.profile
+                }
+            } else if segue.destination is DataStoreInfoTableViewController {
+                
+                weak var destinationVC = segue.destination as? DataStoreInfoTableViewController
+                
+                if segue.identifier == Constants.Segue.dataStoreToInfoSegue {
+                    
+                    destinationVC?.profile = self.profile
+                }
+            } else if segue.destination is DataStoreContactInfoTableViewController {
+                
+                weak var destinationVC = segue.destination as? DataStoreContactInfoTableViewController
+                
+                if segue.identifier == Constants.Segue.dataStoreToContactInfoSegue {
+                    
+                    destinationVC?.profile = self.profile
+                }
+            }
+        }
+    }
+    
 }
