@@ -1,0 +1,6 @@
+framework module Pods_PassportForLifeUITests {
+  umbrella header "Pods-PassportForLifeUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
