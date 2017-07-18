@@ -19,7 +19,6 @@ extension UIColor {
     // MARK: - Staticly defined colors
     
     // swiftlint:disable object_literal
-    static let appBase: UIColor = UIColor.fromRGB(0x018675)
     static let toolbarColor: UIColor = UIColor(red: 76 / 255, green: 217 / 255, blue: 100 / 255, alpha: 1)
     static let blue: UIColor = UIColor(red: 32 / 255, green: 54 / 255, blue: 107 / 255, alpha: 1)
     static let blueLight: UIColor = UIColor(red: 53 / 255, green: 76 / 255, blue: 133 / 255, alpha: 1)

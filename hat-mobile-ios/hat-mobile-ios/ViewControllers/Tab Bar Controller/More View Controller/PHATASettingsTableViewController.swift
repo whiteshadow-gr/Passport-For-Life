@@ -159,12 +159,24 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.phataSettingsCell, for: indexPath) as? PhataTableViewCell {
+        if indexPath.row == 0 {
             
-            return self.setUpCell(cell: cell, indexPath: indexPath)
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "phataAddressLinkCell", for: indexPath) as? PhataTableViewCell {
+                
+                return self.setUpCell(cell: cell, indexPath: indexPath)
+            }
+            
+            return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.phataSettingsCell, for: indexPath)
+        } else {
+            
+            if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.phataSettingsCell, for: indexPath) as? PhataTableViewCell {
+                
+                return self.setUpCell(cell: cell, indexPath: indexPath)
+            }
+            
+            return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.phataSettingsCell, for: indexPath)
         }
         
-        return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.phataSettingsCell, for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -186,10 +198,7 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
         
         if indexPath.row == 0 {
             
-            cell.setTextToTextField(text: self.userDomain)
-            cell.isUserInteractionEnabled = false
-            cell.setTextColorInTextField(color: .gray)
-            cell.setSwitchValue(isOn: true)
+            cell.enableLink(string: "https://" + self.userDomain)
         } else if indexPath.row == 1 {
             
             cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])

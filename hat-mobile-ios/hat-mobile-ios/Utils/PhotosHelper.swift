@@ -88,8 +88,7 @@ internal class PhotosHelper: NSObject {
         
         PHPhotoLibrary.shared().performChanges({
             
-            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: PhotosHelper.albumName)})
-        { success, error in
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: PhotosHelper.albumName)}) { success, error in
             
             if success {
                 

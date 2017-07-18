@@ -279,4 +279,10 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
         
         self.textField.textColor = color
     }
+    
+    func enableLink(string: String) {
+        
+        self.textView.text = string
+        self.textView.tintColor = .blue
+    }
 }

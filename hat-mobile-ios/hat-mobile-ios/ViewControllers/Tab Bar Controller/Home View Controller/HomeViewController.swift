@@ -49,7 +49,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
      */
     @IBAction func showInfoButtonAction(_ sender: Any) {
         
-        self.showInfoViewController(text: "Rumpel Lite's Data Services are all the neat things you can do with your HAT data. Pull your data in with Data Plugs, and make it useful to you with Data Services.")
+        self.showInfoViewController(text: "Passport’s Data Services are all the neat things you can do with your passport data. Pull your data in with Data Plugs, and make it useful to you with Data Services.")
     }
     
     // MARK: - Collection View methods

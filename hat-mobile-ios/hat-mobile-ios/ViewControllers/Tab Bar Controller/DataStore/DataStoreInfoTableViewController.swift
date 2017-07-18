@@ -20,9 +20,9 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Age"], ["Date of Birth"], ["Gender"]]
+    private let sections: [[String]] = [["Age"], ["Date of Birth"], ["Gender"], ["Current Location"]]
     /// The headers of the table view
-    private let headers: [String] = ["Age", "Date of Birth", "Gender"]
+    private let headers: [String] = ["Age", "Date of Birth", "Gender", "Current Location"]
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -72,6 +72,9 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
             } else if index == 2 {
                 
                 profile?.data.gender.type = cell!.getTextFromTextField()
+            } else if index == 3 {
+                
+                profile?.fields.currentCountry = cell!.getTextFromTextField()
             }
         }
         
@@ -192,6 +195,10 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
             cell.setTagInTextField(tag: 15)
             cell.dataSourceForPickerView = ["", "Male", "Female", "Other"]
             cell.setTextToTextField(text: self.profile!.data.gender.type)
+            cell.setKeyboardType(.default)
+        } else if indexPath.section == 3 && self.profile != nil {
+            
+            cell.setTextToTextField(text: self.profile!.fields.currentCountry)
             cell.setKeyboardType(.default)
         }
         

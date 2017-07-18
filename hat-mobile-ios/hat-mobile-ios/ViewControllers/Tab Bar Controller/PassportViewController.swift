@@ -26,7 +26,7 @@ internal class PassportViewController: UIViewController, UICollectionViewDataSou
     private var profile: HATProfileObject?
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Name", "Info", "Contact Info"], ["Nationality"], ["Skills"], ["Education"], ["Activities"], ["Grades"]]
+    private let sections: [[String]] = [["Name", "Info", "Contact Info"], ["Nationality"], ["Skills"], ["Education"], ["Activities"], ["Grades"], ["Achievements"]]
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
@@ -56,7 +56,7 @@ internal class PassportViewController: UIViewController, UICollectionViewDataSou
      */
     @IBAction func showInfoButtonAction(_ sender: Any) {
         
-        self.showInfoViewController(text: "Rumpel Lite's Data Services are all the neat things you can do with your HAT data. Pull your data in with Data Plugs, and make it useful to you with Data Services.")
+        self.showInfoViewController(text: "Passport’s Data Services are all the neat things you can do with your passport data. Pull your data in with Data Plugs, and make it useful to you with Data Services.")
     }
     
     // MARK: - Collection View methods
@@ -397,7 +397,7 @@ internal class PassportViewController: UIViewController, UICollectionViewDataSou
         
         cell.textLabel?.text = self.sections[indexPath.section][indexPath.row]
         
-        if indexPath.section == 4 || indexPath.section == 5 {
+        if indexPath.section == 4 || indexPath.section == 5 || indexPath.section == 6 {
             
             cell.isUserInteractionEnabled = false
             cell.accessoryType = .none
